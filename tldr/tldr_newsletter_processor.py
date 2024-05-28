@@ -83,7 +83,22 @@ class NewsletterProcessor:
                 logging.info("Empty record. Skipping.")
                 return
             to_run = self.messages.copy()
-            prompt = "Please review the email message and categorize the user_rating."
+            prompt = """
+            Please review the email message and categorize the user rating. 
+            Sample response:
+            {
+                "user_rating": [
+                    {
+                        "category": "positive",
+                        "details": "The user is satisfied with the service."
+                    },
+                    {
+                        "category": "negative",
+                        "details": "The user is unhappy with the recent changes."
+                    }
+                ]
+            }
+            """
             to_run.append(SystemMessage(content=prompt))
 
             to_run.append(HumanMessage(content=part))
