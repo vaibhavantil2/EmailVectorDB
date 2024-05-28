@@ -23,7 +23,7 @@ class NewsletterProcessor:
     It fetches emails, splits them into sections, and processes the content
     with a chat model.
     """
-    def __init__(self, user_email: str, output_file: str, error_file: str, splitter_class, newsletter_email: str = 'dan@tldrnewsletter.com') -> None:
+    def __init__(self, user_email: str, output_file: str, error_file: str, splitter_class, newsletter_email: str = 'dan@tldrnewsletter.com', prompt: str) -> None:
         self.user_email = user_email
         self.newsletter_email = newsletter_email
         self.email_fetcher = EmailFetcher(self.user_email)
