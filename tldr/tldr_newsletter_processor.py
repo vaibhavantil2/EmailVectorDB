@@ -31,6 +31,22 @@ class NewsletterProcessor:
         self.chat = ChatOpenAI(temperature=.4, max_retries=0, max_tokens=2400)
         self.output_file = output_file
         self.error_file = error_file
+        self.prompt = """
+            Please review the email message and categorize the user rating. 
+            Sample response:
+            {
+                "user_rating": [
+                    {
+                        "category": "positive",
+                        "details": "The user is satisfied with the service."
+                    },
+                    {
+                        "category": "negative",
+                        "details": "The user is unhappy with the recent changes."
+                    }
+                ]
+            }
+            """
         self.messages = [
             SystemMessage(content=system_message),
             HumanMessage(content=example_in),
@@ -83,24 +99,6 @@ class NewsletterProcessor:
                 logging.info("Empty record. Skipping.")
                 return
             to_run = self.messages.copy()
-            prompt = """
-            Please review the email message and categorize the user rating. 
-            Sample response:
-            {
-                "user_rating": [
-                    {
-                        "category": "positive",
-                        "details": "The user is satisfied with the service."
-                    },
-                    {
-                        "category": "negative",
-                        "details": "The user is unhappy with the recent changes."
-                    }
-                ]
-            }
-            """
-            to_run.append(SystemMessage(content=prompt))
-
             to_run.append(HumanMessage(content=part))
 
             success = False
