@@ -83,6 +83,9 @@ class NewsletterProcessor:
                 logging.info("Empty record. Skipping.")
                 return
             to_run = self.messages.copy()
+            prompt = "Please review the email message and categorize the user_rating."
+            to_run.append(SystemMessage(content=prompt))
+
             to_run.append(HumanMessage(content=part))
 
             success = False
