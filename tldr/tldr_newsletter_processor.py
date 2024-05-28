@@ -23,22 +23,6 @@ class NewsletterProcessor:
     It fetches emails, splits them into sections, and processes the content
     with a chat model.
     """
-    prompt = """
-    Please review the email message and categorize the user rating. 
-    Sample response:
-    {
-        "user_rating": [
-            {
-                "category": "positive",
-                "details": "The user is satisfied with the service."
-            },
-            {
-                "category": "negative",
-                "details": "The user is unhappy with the recent changes."
-            }
-        ]
-    }
-    """    
     def __init__(self, user_email: str, output_file: str, error_file: str, splitter_class, newsletter_email: str = 'dan@tldrnewsletter.com') -> None:
         self.user_email = user_email
         self.newsletter_email = newsletter_email
