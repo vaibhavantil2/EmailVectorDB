@@ -23,7 +23,7 @@ class NewsletterProcessor:
     It fetches emails, splits them into sections, and processes the content
     with a chat model.
     """
-    def __init__(self, user_email: str, output_file: str, error_file: str, splitter_class, newsletter_email: str = 'dan@tldrnewsletter.com', prompt: str) -> None:
+    def __init__(self, user_email: str, output_file: str, error_file: str, splitter_class, newsletter_email: str = 'dan@tldrnewsletter.com') -> None:
         self.user_email = user_email
         self.newsletter_email = newsletter_email
         self.email_fetcher = EmailFetcher(self.user_email)
@@ -31,22 +31,6 @@ class NewsletterProcessor:
         self.chat = ChatOpenAI(temperature=.4, max_retries=0, max_tokens=2400)
         self.output_file = output_file
         self.error_file = error_file
-        self.prompt = """
-            Please review the email message and categorize the user rating. 
-            Sample response:
-            {
-                "user_rating": [
-                    {
-                        "category": "positive",
-                        "details": "The user is satisfied with the service."
-                    },
-                    {
-                        "category": "negative",
-                        "details": "The user is unhappy with the recent changes."
-                    }
-                ]
-            }
-            """
         self.messages = [
             SystemMessage(content=system_message),
             HumanMessage(content=example_in),
@@ -136,4 +120,3 @@ class NewsletterProcessor:
                         l.append(error_data)
                 with open(self.error_file, 'w') as f:
                     json.dump(l, f, indent=4)
-
